@@ -17,7 +17,8 @@ defmodule Survey.State do
   """
 
   @valid_transitions %{
-    :start => [:menu]
+    :start => [:start, :analyse],
+    :analyse => [:start, :menu]
   }
 
   ######### PUBLIC
@@ -30,7 +31,7 @@ defmodule Survey.State do
   ######### GENSERVER IMP
 
   def init(_) do
-    {:ok, :start}
+    {:ok, {nil, :start}}
   end
 
   def current() do
@@ -48,12 +49,12 @@ defmodule Survey.State do
   ######### HELPERS
   def handle_call({:current}, _from, state), do: {:reply, state, state}
 
-  def handle_call({:reset}, _from, _state), do: {:reply, :ok, :start}
+  def handle_call({:reset}, _from, _state), do: {:reply, :ok, {nil, :start}}
 
-  def handle_call({:transition, to_state}, _from, current) do
+  def handle_call({:transition, to_state}, _from, {prev, current} = state) do
     case validate(@valid_transitions[current], to_state) do
-      :ok -> {:reply, :ok, to_state}
-      :invalid -> {:reply, :invalid, current}
+      :ok -> {:reply, :ok, {current, to_state}}
+      :invalid -> {:reply, :invalid, state}
     end
   end
 
