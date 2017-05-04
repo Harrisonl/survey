@@ -17,8 +17,8 @@ defmodule Survey.State do
   """
 
   @valid_transitions %{
-    :start => [:start, :analyse],
-    :analyse => [:start, :menu]
+    :start => [:start, :processing],
+    :processing => [:analysing, :start]
   }
 
   ######### PUBLIC
@@ -51,7 +51,7 @@ defmodule Survey.State do
 
   def handle_call({:reset}, _from, _state), do: {:reply, :ok, {nil, :start}}
 
-  def handle_call({:transition, to_state}, _from, {prev, current} = state) do
+  def handle_call({:transition, to_state}, _from, {_, current} = state) do
     case validate(@valid_transitions[current], to_state) do
       :ok -> {:reply, :ok, {current, to_state}}
       :invalid -> {:reply, :invalid, state}
@@ -61,6 +61,6 @@ defmodule Survey.State do
   defp validate(nil, _), do: :invalid
   defp validate([], _to_state), do: :invalid
   defp validate([to_state | _r], to_state), do: :ok
-  defp validate([valid | rest], to_state), do: validate(rest, to_state)
+  defp validate([_valid | rest], to_state), do: validate(rest, to_state)
 
 end

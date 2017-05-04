@@ -1,0 +1,2 @@
+%{"csv": {:git, "https://github.com/harrisonl/csv.git", "985521672d4a3bbcb02981617743a86ddce76ebe", []},
+  "parallel_stream": {:hex, :parallel_stream, "1.0.5", "4c78d3e675f9eff885cbe252c89a8fc1d2fb803c0d03a914281e587834e09431", [:mix], []}}

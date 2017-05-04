@@ -17,6 +17,9 @@ defmodule Survey.Mixfile do
   end
 
   defp deps do
-    []
+    [
+      {:csv, github: "harrisonl/csv"}
+    ]
+
   end
 end

@@ -11,13 +11,13 @@ defmodule Survey.StateTest do
   end
 
   test "should store the previous and current" do
-    State.transition(:analyse)
-    assert State.current() == {:start, :analyse}
+    State.transition(:processing)
+    assert State.current() == {:start, :processing}
   end
 
   test "should change state for a valid transition" do
-    State.transition(:analyse)
-    assert State.current() == {:start, :analyse}
+    State.transition(:processing)
+    assert State.current() == {:start, :processing}
   end
 
   test "should return :invalid for an invalid transition" do
