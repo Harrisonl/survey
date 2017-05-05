@@ -1,9 +1,10 @@
 defmodule Survey.ParserTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   alias Survey.{Parser, State, Question, Answer}
 
   describe "process/1" do
     setup do
+      Application.ensure_all_started(:survey)
       {:ok, questions: "./test/questions_sample.csv", answers: "./test/answers_sample.csv"}
     end
 

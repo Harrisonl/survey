@@ -1,7 +1,8 @@
-defmodule Survey.AnalyseTest do
-  use ExUnit.Case
+defmodule Survey.AnalyserTest do
+  use ExUnit.Case, async: false
 
   setup do
+    Application.ensure_all_started(:survey)
     questions = "./test/questions_sample.csv"
     answers = "./test/answers_sample.csv"
     {:ok, {questions, answers}} =
@@ -11,7 +12,7 @@ defmodule Survey.AnalyseTest do
   end
 
   test "returns a results struct", %{questions: qs, answers: as} do
-    assert Survey.Analyse.process({qs, as}) == 
+    assert Survey.Analyser.process({qs, as}) == 
       {:ok, %Survey.Results{
         averages: %{1 => 4.6, 2 => 5.0, 3 => 5.0, 4 => 3.6, 5 => 3.6},
          participated: 5, 

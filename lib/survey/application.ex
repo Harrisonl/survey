@@ -7,7 +7,8 @@ defmodule Survey.Application do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(Survey.State, [])
+      worker(Survey.State, []),
+      worker(Survey.Cache, [])
     ]
 
     opts = [strategy: :one_for_one, name: Survey.Supervisor]

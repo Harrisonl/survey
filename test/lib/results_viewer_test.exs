@@ -1,8 +1,9 @@
 defmodule Survey.ResultsViewerTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   import ExUnit.CaptureIO
 
   setup do
+    Application.ensure_all_started(:survey)
     questions = "./test/questions_sample.csv"
     answers = "./test/answers_sample.csv"
     {:ok, {questions, answers}} =
@@ -12,19 +13,19 @@ defmodule Survey.ResultsViewerTest do
   end
 
   test "outputs question summary", %{questions: qs, answers: as} do
-    assert capture_io(fn -> (Survey.Analyse.process({qs, as}) |> elem(1) |> Survey.ResultsViewer.display_results(qs)) end) =~ "Questions"
+    assert capture_io(fn -> (Survey.Analyser.process({qs, as}) |> elem(1) |> Survey.ResultsViewer.display_results(qs)) end) =~ "Questions"
   end
 
   test "outputs summary", %{questions: qs, answers: as} do
-    assert capture_io(fn -> (Survey.Analyse.process({qs, as}) |> elem(1) |> Survey.ResultsViewer.display_results(qs)) end) =~ "Summary"
+    assert capture_io(fn -> (Survey.Analyser.process({qs, as}) |> elem(1) |> Survey.ResultsViewer.display_results(qs)) end) =~ "Summary"
   end
 
   test "outputs answers", %{questions: qs, answers: as} do
-    assert capture_io(fn -> (Survey.Analyse.process({qs, as}) |> elem(1) |> Survey.ResultsViewer.display_results(qs)) end) =~ "Answers"
+    assert capture_io(fn -> (Survey.Analyser.process({qs, as}) |> elem(1) |> Survey.ResultsViewer.display_results(qs)) end) =~ "Answers"
   end
 
   test "outputs averages", %{questions: qs, answers: as} do
-    assert capture_io(fn -> (Survey.Analyse.process({qs, as}) |> elem(1) |> Survey.ResultsViewer.display_results(qs)) end) =~ "Averages"
+    assert capture_io(fn -> (Survey.Analyser.process({qs, as}) |> elem(1) |> Survey.ResultsViewer.display_results(qs)) end) =~ "Averages"
   end
 
 end

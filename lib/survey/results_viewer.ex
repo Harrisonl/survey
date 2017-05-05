@@ -20,7 +20,7 @@ defmodule Survey.ResultsViewer do
 
   # ------------ PRIVATE
   defp display_questions(questions) do
-    render(question_summary(questions), ["Number", "Type", "Text"], "Questions")
+    render(question_summary(questions), ["Number", "Type", "Text (first 70 letters)"], "Questions")
   end
 
   defp display_summary(results) do
@@ -52,7 +52,7 @@ defmodule Survey.ResultsViewer do
   defp question_summary(questions) do
     questions
     |> Enum.map(fn(q) ->
-      [q.number, q.type, q.text]
+      [q.number, q.type, String.slice(q.text, 0..69)]
     end)
   end
 

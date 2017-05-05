@@ -1,4 +1,4 @@
-defmodule Survey.Analyse do
+defmodule Survey.Analyser do
   alias Survey.{Question, Answer, Results, State}
 
   @moduledoc """

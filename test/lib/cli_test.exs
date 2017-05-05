@@ -1,9 +1,13 @@
 defmodule Survey.CLITest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   import ExUnit.CaptureIO
   alias Survey.{CLI, State}
 
   @valid_args ["--questions", "test.csv", "--answers", "answers.csv"]
+
+  setup do
+    Application.ensure_all_started(:survey)
+  end
 
   test "should error if the files can't be processed" do
     assert capture_io(fn -> CLI.main(["--questions", "hello"]) end) == "Missing answers file\n"

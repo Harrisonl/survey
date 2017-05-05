@@ -1,8 +1,9 @@
 defmodule Survey.StateTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: false
   alias Survey.State
 
   setup do
+    Application.ensure_all_started(:survey)
     State.reset()
   end
 
