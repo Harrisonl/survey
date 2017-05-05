@@ -1,6 +1,6 @@
 defmodule Survey.CacheTest do
   use TestHelper
-  alias Survey.{Parser, Analyser, Cache, State}
+  alias Survey.{Parser, Analyser, Cache}
 
   setup do
     cond do
