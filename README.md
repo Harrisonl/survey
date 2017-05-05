@@ -26,7 +26,7 @@ using the `-q` or `--questions` flag for the questions file and `-a` or `--answe
 
 E.g To run the sample data:
 
-`./survey -q ./test/questions_sample.csv, -a ./test/answers_sample.csv`
+`./survey -q ./test/questions_sample.csv -a ./test/answers_sample.csv`
 
 To load a previously ran survey simply pass the `--survey` or `-s` switch along with the survey's unique key
 
@@ -53,8 +53,7 @@ This application is currently seperated into 6 main modules.
 2. **Parser** -> Takes in two csv files and parsers them into a consumable data structure
 3. **Analyser** -> Takes this parsed data and analyses it, returning a results struct which can be easily displayed
 4. **ResultsViewer** -> Takes in a results struct and outputs the information in tables
-5. **State** -> Tracks the current state of the application. Currently has limited functionality but was put into the application in order
-cater for complex menu systems/options etc. if the application was to be extended
+5. **State** -> Tracks the current state of the application. Currently has limited functionality but was put into the application in order to cater for complex menu systems/options etc. if the application was to be extended
 6. **Cache** -> Used to store previously processed surveys to save the user having to reprocess them.
 
 ## Discussion
@@ -64,22 +63,23 @@ The reason for seperating the application into these modules is due to ensuring 
 
 Each of these modules performs one task in the transformation process, parsing -> analysing -> displaying. This makes the application more modular and extensible in the future if the need arised.
 
+If the application were to be extended to process multiple files at once, you could simply replace the `Parser` module with a worker system (see image below) and the overall functionality of the application wouldn't change. This would allow concurrent processing of multiple files at the same time, improving the speed as well as the user experience.
+
+
 ### Supervision
 As this is an elixir OTP application, by default the application is supervised, meaning that if one of the worker servers die, it is promptly restarted. This provides a level of fault tolerance that you can't get in other languages (well this simply).
 
 ### ETS
-Currently the use of ETS is a bit overkill and actually increases the VM start up time. However but considering the exstensibility of the application, it would be quite useful.
+Currently the use of ETS is a bit overkill and actually increases the VM start up time. However considering the exstensibility of the application, it would be quite useful.
 
 E.g. If we were to implement a menu system where users can navigate between processing new files, viewing previous surveys etc. it would be perfect as all the survey data would be kept in memory and easily accessed. It also reduces the overhead of having to have a full database to store the data.
 
 ## Extending
 
 ### Workers
-If the application were to be extended to process multiple files at once, you could simply replace the `Parser` module with a worker system (see image below) and the overall functionality of the application wouldn't change. This would allow concurrent processing of multiple files at the same time, improving the speed as well as the user experience.
-
 If this application was going to be used to process larger/multiple files at once, the below image shows how I would replace the `Parser` and `Analyse` modules with a worker queue system. 
 
-![Worker Diagram](//i.imgur.com/0tQ0n1b.jpg)
+![Worker Diagram](https://i.imgur.com/0tQ0n1b.jpg)
 
 In the above diagram circles represent supervisors and squares gen-servers with lines representing the supervision tree. 
 
