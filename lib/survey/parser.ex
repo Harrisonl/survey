@@ -17,7 +17,7 @@ defmodule Survey.Parser do
   If there is a problem processing any of the files, `parse/1` will
   return {:error, message}
   """
-  def process_files([questions: q_file, answers: a_file]) do
+  def process([questions: q_file, answers: a_file]) do
     State.transition(:processing)
 
     [{q_file, true}, {a_file, false}]
@@ -25,9 +25,9 @@ defmodule Survey.Parser do
     |> parse_data()
   end
 
-  def process_files([questions: f]) when f != nil, do: {:error, "Missing answers file"}
-  def process_files([answers: f]) when f != nil, do: {:error, "Missing questions file"}
-  def process_files(_), do: {:error, "Missing valid questions and answers file"}
+  def process([questions: f]) when f != nil, do: {:error, "Missing answers file"}
+  def process([answers: f]) when f != nil, do: {:error, "Missing questions file"}
+  def process(_), do: {:error, "Missing valid questions and answers file"}
 
   # ---------- PRIVATE HELPERS
   defp parse_file({file, headers}) do

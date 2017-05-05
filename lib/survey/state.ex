@@ -18,7 +18,9 @@ defmodule Survey.State do
 
   @valid_transitions %{
     :start => [:start, :processing],
-    :processing => [:analysing, :start]
+    :processing => [:analysing, :start],
+    :analysing => [:displaying, :start],
+    :displaying => [:complete, :start]
   }
 
   ######### PUBLIC

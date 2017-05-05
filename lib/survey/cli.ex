@@ -1,5 +1,5 @@
 defmodule Survey.CLI do
-  alias Survey.{State, Parser}
+  alias Survey.{State, Parser, Analyse}
   @valid_args [switches: [questions: :string, answers: :string], aliases: [q: :questions, a: :answers]]
 
   @moduledoc """
@@ -12,8 +12,8 @@ defmodule Survey.CLI do
   def main(args) do
     State.transition(:analyse)
     with {a, _, _}       <- OptionParser.parse(args, @valid_args),
-         {:ok, data}        <- Parser.process_files(a) do
-         #{:ok, results}     <- Parser.analyse_data(data),
+         {:ok, data}        <- Parser.process(a),
+         {:ok, results}     <- Analyse.process(data) do
          #{:ok, table}       <- ResultsViewer.display_results(results) do
            IO.puts "done"
          else
