@@ -27,6 +27,7 @@ defmodule Survey.Analyser do
   ```
   """
   def process({questions, answers}) do
+    State.transition(:analysing)
     res = %Results{}
     |> add_questions(questions)
     |> add_averages(questions)

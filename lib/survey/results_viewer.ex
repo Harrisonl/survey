@@ -1,5 +1,5 @@
 defmodule Survey.ResultsViewer do
-  alias Survey.Results
+  alias Survey.{Results, State}
   @moduledoc """
   Used to format and display the results.
 
@@ -12,6 +12,7 @@ defmodule Survey.ResultsViewer do
   Uses TableRex to output the results nicely.
   """
   def display_results(results, questions) do
+    State.transition(:displaying)
     display_questions(questions)
     display_summary(results)
     display_answers(results)

@@ -1,11 +1,6 @@
 defmodule Survey.StateTest do
-  use ExUnit.Case, async: false
+  use TestHelper
   alias Survey.State
-
-  setup do
-    Application.ensure_all_started(:survey)
-    State.reset()
-  end
 
   test "initial state should be :start" do
     assert State.current() == {nil, :start}

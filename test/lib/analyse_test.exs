@@ -1,8 +1,7 @@
 defmodule Survey.AnalyserTest do
-  use ExUnit.Case, async: false
+  use TestHelper
 
   setup do
-    Application.ensure_all_started(:survey)
     questions = "./test/questions_sample.csv"
     answers = "./test/answers_sample.csv"
     {:ok, {questions, answers}} =

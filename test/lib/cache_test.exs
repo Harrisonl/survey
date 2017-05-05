@@ -1,14 +1,11 @@
 defmodule Survey.CacheTest do
-  use ExUnit.Case, async: false
-  alias Survey.{Parser, Analyser, Cache}
+  use TestHelper
+  alias Survey.{Parser, Analyser, Cache, State}
 
   setup do
-    Application.ensure_all_started(:survey)
-    on_exit fn ->
-      File.rm("dump.ets")
-    end
     cond do
       Process.whereis(Cache) -> Cache.delete_all()
+      File.exists?("dump.ets") -> File.rm("dump.ets")
       true -> nil
     end
     questions = "./test/questions_sample.csv"
@@ -30,7 +27,6 @@ defmodule Survey.CacheTest do
   end
 
   test "saves the table to file" do
-    refute File.exists?("dump.ets")
     Cache.save()
     assert File.exists?("dump.ets")
   end

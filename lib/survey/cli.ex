@@ -7,7 +7,15 @@ defmodule Survey.CLI do
   """
 
   @doc """
-  Invoked when the application starts
+  Invoked when the application starts.
+
+  Depending on the switches passed in the application can take two paths.
+
+  1. If the --questions and --answers is passed in the application processes
+  both files and displays the result.
+
+  2. However if there is a --survey or -s switch, the application will load the previous
+  results of that survey from the cache and displays those results.
   """
   def main(args) do
     State.transition(:analyse)
@@ -16,6 +24,7 @@ defmodule Survey.CLI do
     |> start_application()
   end
 
+  # --------- Helpers
   defp parse_args(args) do
     {a, _, _} =
       args
@@ -29,6 +38,7 @@ defmodule Survey.CLI do
       false -> process_survey(args)
     end
     Cache.save()
+    State.transition(:complete)
   end
 
   def load_results(key) do
