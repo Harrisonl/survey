@@ -1,5 +1,5 @@
 defmodule Survey.Parser do
-  alias Survey.{SurveyData, State, Question, Answer}
+  alias Survey.{State, Question, Answer}
 
   @moduledoc """
   Used to parse the files and analyse the results.
@@ -17,7 +17,14 @@ defmodule Survey.Parser do
   If there is a problem processing any of the files, `parse/1` will
   return {:error, message}
   """
-  def process([questions: q_file, answers: a_file]) do
+  def process([questions: q_file, answers: a_file]), do: process_files(q_file, a_file)
+  def process([answers: a_file, questions: q_file]), do: process_files(q_file, a_file)
+  def process([questions: f]) when f != nil, do: {:error, "Missing answers file"}
+  def process([answers: f]) when f != nil, do: {:error, "Missing questions file"}
+  def process(_), do: {:error, "Missing valid questions and answers file"}
+
+  # ---------- PRIVATE HELPERS
+  defp process_files(q_file, a_file) do
     State.transition(:processing)
 
     [{q_file, true}, {a_file, false}]
@@ -25,11 +32,6 @@ defmodule Survey.Parser do
     |> parse_data()
   end
 
-  def process([questions: f]) when f != nil, do: {:error, "Missing answers file"}
-  def process([answers: f]) when f != nil, do: {:error, "Missing questions file"}
-  def process(_), do: {:error, "Missing valid questions and answers file"}
-
-  # ---------- PRIVATE HELPERS
   defp parse_file({file, headers}) do
     file
     |> File.stream!

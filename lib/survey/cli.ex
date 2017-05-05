@@ -48,10 +48,11 @@ defmodule Survey.CLI do
 
   defp process_survey(args) do
     with {:ok, {questions, answers} = data} <- Parser.process(args),
-                             {:ok, results} <- Analyser.process(data),
-                                        :ok <- ResultsViewer.display_results(results, questions) do
-                                          {:ok, key}= Cache.add({questions, answers, results})
-                                          IO.puts "Survey saved, your key is: #{key}"
+      {:ok, results} <- Analyser.process(data),
+      :ok <- ResultsViewer.display_results(results, questions)
+    do
+      {:ok, key}= Cache.add({questions, answers, results})
+      IO.puts "Survey saved, your key is: #{key}"
     else
       {:error, reason} -> IO.puts reason
       _                -> IO.puts "An unexpected error occured processing your files. Please make sure they are valid and then try again"

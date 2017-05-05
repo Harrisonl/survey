@@ -1,5 +1,5 @@
 defmodule Survey.Analyser do
-  alias Survey.{Question, Answer, Results, State}
+  alias Survey.{Results, State}
 
   @moduledoc """
   Handles the analysis of the data. 

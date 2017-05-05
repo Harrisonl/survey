@@ -25,7 +25,7 @@ defmodule Survey.Cache do
   {:ok, "asd23fd23"}
   ```
   """
-  def add({questions, answers, results} = payload) do
+  def add({_,_,_} = payload) do
     GenServer.call(__MODULE__, {:add, payload})
   end
 
