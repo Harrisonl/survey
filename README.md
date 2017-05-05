@@ -79,7 +79,7 @@ If the application were to be extended to process multiple files at once, you co
 
 If this application was going to be used to process larger/multiple files at once, the below image shows how I would replace the `Parser` and `Analyse` modules with a worker queue system. 
 
-![Worker Diagram(https://imgur.com/a/fd0ec)
+![Worker Diagram](https://imgur.com/a/fd0ec)
 
 In the above diagram circles represent supervisors and squares gen-servers with lines representing the supervision tree. 
 
