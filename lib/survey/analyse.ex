@@ -1,5 +1,5 @@
 defmodule Survey.Analyse do
-  alias Survey.{Results, State}
+  alias Survey.{Question, Answer, Results, State}
 
   @moduledoc """
   Handles the analysis of the data. 
@@ -27,14 +27,12 @@ defmodule Survey.Analyse do
   ```
   """
   def process({questions, answers}) do
-    State.transition(:analysing)
-    res = 
-      %Results{}
-      |> add_questions(questions)
-      |> add_averages(questions)
-      |> add_answers(answers)
-      |> calculate_averages()
-      |> calculate_participation(answers)
+    res = %Results{}
+    |> add_questions(questions)
+    |> add_averages(questions)
+    |> add_answers(answers)
+    |> calculate_averages()
+    |> calculate_participation(answers)
 
     {:ok, res}
   end
@@ -93,8 +91,13 @@ defmodule Survey.Analyse do
         end
       end)
 
-    results = %{results | participated: total}
-    %{results | percentage: (count / total) * 100}
+    results = %{results | participated: count}
+    case total do
+      0 -> 
+        %{results | percentage: 0}
+      _ ->
+        %{results | percentage: (count / total) * 100}
+    end
   end
 
   def calc_average(q_num, answers, map) do
@@ -105,6 +108,9 @@ defmodule Survey.Analyse do
           num -> {total + String.to_integer(num), count + 1}
         end
       end)
-    Map.put(map, q_num, total / count)
+    case total do
+      0 -> 0
+      _ -> Map.put(map, q_num, total / count)
+    end
   end
 end

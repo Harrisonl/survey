@@ -18,7 +18,8 @@ defmodule Survey.Mixfile do
 
   defp deps do
     [
-      {:csv, github: "harrisonl/csv"}
+      {:csv, github: "harrisonl/csv"},
+      {:table_rex, "~> 0.10"}
     ]
 
   end
